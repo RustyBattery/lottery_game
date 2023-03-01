@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\LotteryMatchFinished;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -22,6 +23,6 @@ class LotteryGameMatch extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'lottery_game_match_users');
+        return $this->belongsToMany(User::class, 'lottery_game_match_users')->using(UserMatch::class)->withTimestamps();
     }
 }

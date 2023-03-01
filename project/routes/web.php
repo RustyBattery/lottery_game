@@ -25,8 +25,10 @@ $router->group(['prefix' => 'api'], function () use ($router) {
         $router->post('/login', 'AuthController@login');
         $router->group(['middleware' => 'jwt.auth'], function () use ($router){
             $router->post('/logout', 'AuthController@logout');
-            $router->put('/{id}', 'UserController@update');
-            $router->delete('/{id}', 'UserController@delete');
+            $router->group(['middleware' => 'account_owner'], function () use ($router){
+                $router->put('/{id}', 'UserController@update');
+                $router->delete('/{id}', 'UserController@delete');
+            });
             $router->group(['middleware' => 'admin'], function () use ($router){
                 $router->get('/', 'UserController@index');
             });

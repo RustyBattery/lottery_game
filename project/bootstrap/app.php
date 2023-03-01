@@ -79,6 +79,7 @@ $app->configure('jwt');
  $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
      'admin' => App\Http\Middleware\Admin::class,
+     'account_owner' => App\Http\Middleware\AccountOwner::class,
  ]);
 
 /*
@@ -97,6 +98,9 @@ $app->configure('jwt');
  $app->register(App\Providers\EventServiceProvider::class);
 
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
+
+//$app->register(\Anik\Form\FormRequestServiceProvider::class);
+//$app->register(Urameshibr\Providers\LumenFormRequestServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
