@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\ExampleEvent;
 use App\Events\LotteryMatchJoin;
 use App\Exceptions\CustomException;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -28,9 +29,10 @@ class CheckReJoin
      */
     public function handle(LotteryMatchJoin $event)
     {
-        $matches = $event->user->matches;
+        $user = User::query()->findOrFail($event->user_match->user_id);
+        $matches = $user->matches;
         foreach ($matches as $match) {
-            if ($match->pivot->user_id == $event->user->id && $match->pivot->lottery_game_match_id == $event->match->id) {
+            if ($match->pivot->user_id == $user->id && $match->pivot->lottery_game_match_id == $event->user_match->lottery_game_match_id) {
                 throw new CustomException("This user has already joined!", 400);
             }
         }

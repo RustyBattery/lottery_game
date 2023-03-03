@@ -28,11 +28,6 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
         return $this->belongsToMany(LotteryGameMatch::class, 'lottery_game_match_users')->using(UserMatch::class)->withTimestamps();
     }
 
-    public function win_matches()
-    {
-        return $this->belongsToMany(LotteryGameMatch::class, 'lottery_game_match_users')->where('winner_id', $this->id);
-    }
-
     public function getJWTIdentifier()
     {
         return $this->getKey();

@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 
 use App\Events\LotteryMatchFinished;
-use App\Events\LotteryMatchJoin;
 use App\Exceptions\CustomException;
-use App\Http\Controllers\Requests\GameIdRequest;
-use App\Http\Controllers\Requests\MatchCreateRequest;
-use App\Http\Controllers\Requests\MatchIdRequest;
-use App\Http\Controllers\Requests\MatchJoinRequest;
+use App\Http\Requests\GameIdRequest;
+use App\Http\Requests\MatchCreateRequest;
+use App\Http\Requests\MatchIdRequest;
+use App\Http\Requests\MatchJoinRequest;
 use App\Models\LotteryGame;
 use App\Models\LotteryGameMatch;
 use App\Models\User;
@@ -20,21 +19,21 @@ class LotteryGameMatchController extends Controller
 {
     public function index(GameIdRequest $request)
     {
-        $data = $request->getParams()->toArray();
+        $data = $request->validated();
         $mathes = LotteryGame::query()->find($data['lottery_game_id'])->matches;
         return $mathes;
     }
 
     public function create(MatchCreateRequest $request)
     {
-        $data = $request->getParams()->toArray();
+        $data = $request->validated();
         $match = LotteryGameMatch::create($data);
         return response("OK", 200);
     }
 
     public function finish(MatchIdRequest $request)
     {
-        $data = $request->getParams()->toArray();
+        $data = $request->validated();
         $match = LotteryGameMatch::find($data['id']);
         if (!$match) {
             throw new CustomException("This match does not exist!", 404);
@@ -54,7 +53,7 @@ class LotteryGameMatchController extends Controller
     public function join(MatchJoinRequest $request)
     {
         $user = User::query()->find(auth()->user()->id);
-        $data = $request->getParams()->toArray();
+        $data = $request->validated();
         $user->matches()->attach($data['match_id']);
         return response("OK", 200);
     }

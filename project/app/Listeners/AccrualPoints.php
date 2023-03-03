@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\ExampleEvent;
 use App\Events\LotteryMatchFinished;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -27,7 +28,9 @@ class AccrualPoints
      */
     public function handle(LotteryMatchFinished $event)
     {
-        $event->winner->points += $event->points;
-        $event->winner->save();
+        $winner = User::query()->findOrFail($event->match->winner_id);
+        $points = $event->match->game->reward_points;
+        $winner->points += $points;
+        $winner->save();
     }
 }

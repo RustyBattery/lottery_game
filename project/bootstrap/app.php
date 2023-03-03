@@ -99,6 +99,8 @@ $app->configure('jwt');
 
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
+$app->register(\Anik\Form\FormRequestServiceProvider::class);
+
 //$app->register(\Anik\Form\FormRequestServiceProvider::class);
 //$app->register(Urameshibr\Providers\LumenFormRequestServiceProvider::class);
 
