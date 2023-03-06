@@ -12,3 +12,7 @@
 - php artisan migrate
 - php artisan db:seed (если нужно)
 - php artisan jwt:secret
+
+для работы очереди:
+- docker exec -it app_queue bash
+- php artisan queue:work

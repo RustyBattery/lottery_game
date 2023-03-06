@@ -1,4 +1,12 @@
 version: "3"
+
+x-base-app: &base-app
+  build: .
+  volumes:
+    - ../project:/var/www/laravel
+  links:
+    - postgres
+
 services:
   nginx:
     container_name: nginx
@@ -11,16 +19,19 @@ services:
     working_dir: /var/www/laravel
     links:
       - app
+      - app_queue
 
   app:
     container_name: app
-    build: .
-    volumes:
-      - ../project:/var/www/laravel
-    links:
-      - postgres
+    <<: *base-app
     ports:
       - "9000:9000"
+
+  app_queue:
+    container_name: app_queue
+    <<: *base-app
+    ports:
+      - "8000:8000"
 
   postgres:
     container_name: postgres
@@ -33,4 +44,3 @@ services:
       - ../project/tmp/db:/var/lib/postgresql
     ports:
       - 5432:5432
-

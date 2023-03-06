@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
             \App\Listeners\GenerateWinner::class,
             \App\Listeners\AccrualPoints::class,
         ],
+        \App\Events\LotteryMatchCreate::class => [
+            \App\Listeners\AddMatchFinishJob::class,
+        ],
     ];
 
     /**

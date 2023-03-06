@@ -12,6 +12,7 @@ use App\Http\Requests\MatchJoinRequest;
 use App\Models\LotteryGame;
 use App\Models\LotteryGameMatch;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Event;
 
@@ -42,10 +43,11 @@ class LotteryGameMatchController extends Controller
             throw new CustomException("The match is already finished!", 400);
         }
 
-        $match->is_finished = true;
-        $match->save();
+        $match->finish();
 
-        Event::dispatch(new LotteryMatchFinished($match));
+//        $match->is_finished = true;
+//        $match->save();
+//        Event::dispatch(new LotteryMatchFinished($match));
 
         return response("OK", 200);
     }
