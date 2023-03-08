@@ -28,9 +28,11 @@ class AccrualPoints
      */
     public function handle(LotteryMatchFinished $event)
     {
-        $winner = User::query()->findOrFail($event->match->winner_id);
-        $points = $event->match->game->reward_points;
-        $winner->points += $points;
-        $winner->save();
+        $winner = User::query()->find($event->match->winner_id);
+        if($winner){
+            $points = $event->match->game->reward_points;
+            $winner->points += $points;
+            $winner->save();
+        }
     }
 }

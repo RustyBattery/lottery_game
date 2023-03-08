@@ -28,10 +28,11 @@ services:
       - "9000:9000"
 
   app_queue:
-    container_name: app_queue
+    container_name: daemon
     <<: *base-app
     ports:
       - "8000:8000"
+    entrypoint: ./daemon.sh
 
   postgres:
     container_name: postgres

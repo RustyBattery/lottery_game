@@ -28,8 +28,10 @@ class GenerateWinner
      */
     public function handle(LotteryMatchFinished $event)
     {
-        $winner = $event->match->users->random();
-        $event->match->winner_id = $winner->id;
-        $event->match->save();
+        if($event->match->users->count()){
+            $winner = $event->match->users->random();
+            $event->match->winner_id = $winner->id;
+            $event->match->save();
+        }
     }
 }
